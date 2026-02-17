@@ -1,0 +1,2761 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kwestionariusz Przekonań Osobowości – Wersja Krótka (PBQ-SF)</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 24px;
+      color: #111;
+      background: #fff;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .top-fields {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    .top-fields label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+    }
+    .top-fields input[type="text"],
+    .top-fields input[type="date"] {
+      width: 100%;
+      max-width: 340px;
+      padding: 4px 6px;
+      border: 1px solid #999;
+      font-size: 14px;
+    }
+    h1 {
+      font-size: 22px;
+      text-align: center;
+      margin: 0 0 10px 0;
+      font-weight: 700;
+    }
+    .instruction {
+      font-size: 14px;
+      margin: 0 0 10px 0;
+      line-height: 1.35;
+    }
+    .legend {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 6px 0 16px 0;
+      font-size: 12px;
+    }
+    .legend th, .legend td {
+      text-align: center;
+      padding: 4px 6px;
+    }
+    .legend .num {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    table.questionnaire {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    table.questionnaire th,
+    table.questionnaire td {
+      border: 1px solid #555;
+      padding: 6px;
+      vertical-align: middle;
+    }
+    table.questionnaire th {
+      background: #f3f3f3;
+      font-weight: 700;
+    }
+    td.num {
+      width: 42px;
+      text-align: center;
+      font-weight: 700;
+    }
+    td.statement {
+      width: 52%;
+      line-height: 1.25;
+    }
+    td.option {
+      width: 9%;
+      text-align: center;
+    }
+    .option-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .opt-num {
+      display: inline-block;
+      min-width: 10px;
+      font-weight: 600;
+    }
+    input[type="radio"] {
+      transform: scale(1.05);
+    }
+    tr.missing td {
+      background: #fff3cd;
+    }
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    button {
+      padding: 10px 14px;
+      font-size: 14px;
+      border: 1px solid #444;
+      background: #f6f6f6;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #eee;
+    }
+    #results {
+      margin-top: 18px;
+      border: 1px solid #555;
+      padding: 12px;
+      display: none;
+    }
+    #results h2 {
+      margin: 0 0 10px 0;
+      font-size: 18px;
+    }
+    #results table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    #results th, #results td {
+      border: 1px solid #ccc;
+      padding: 6px;
+      text-align: left;
+    }
+    #comment {
+      margin-top: 12px;
+      padding: 10px;
+      border: 1px dashed #777;
+      background: #fafafa;
+      font-size: 13px;
+      line-height: 1.35;
+      white-space: pre-wrap;
+    }
+    .small-note {
+      font-size: 12px;
+      margin-top: 8px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top-fields">
+      <label>
+        Imię i nazwisko osoby wypełniającej:
+        <input type="text" id="name" autocomplete="name">
+      </label>
+      <label style="justify-content: flex-end;">
+        Data:
+        <input type="date" id="date">
+      </label>
+    </div>
+
+    <h1>Kwestionariusz Przekonań Osobowości – Wersja Krótka (PBQ-SF)</h1>
+
+    <p class="instruction">
+      Proszę przeczytać poniższe stwierdzenia i <strong>OCENIĆ SWOJE PRZEKONANIE O TYM, ŻE SĄ PRAWDZIWE.</strong>
+      Nie należy opuszczać żadnych pozycji.
+    </p>
+
+    <table class="legend" aria-hidden="true">
+      <tr>
+        <td class="num">4</td>
+        <td class="num">3</td>
+        <td class="num">2</td>
+        <td class="num">1</td>
+        <td class="num">0</td>
+      </tr>
+      <tr>
+        <td>w pełni się z tym zgadzam</td>
+        <td>w dużej mierze się z tym zgadzam</td>
+        <td>umiarkowanie się z tym zgadzam</td>
+        <td>trochę się z tym zgadzam</td>
+        <td>nie zgadzam się</td>
+      </tr>
+    </table>
+
+    <form id="pbqForm">
+      <table class="questionnaire" role="table" aria-label="PBQ-SF">
+        <tr>
+          <th style="width:42px;"></th>
+          <th>Treść stwierdzenia</th>
+          <th colspan="5">Jak bardzo zgadzam się z tym stwierdzeniem?</th>
+        </tr>
+        <tr>
+          <th></th>
+          <th></th>
+          <th>w pełni</th>
+          <th>w dużej mierze</th>
+          <th>umiarkowanie</th>
+          <th>trochę</th>
+          <th>nie zgadzam się</th>
+        </tr>
+
+        
+      <tr id="row1">
+        <td class="num">1</td>
+        <td class="statement">Jeśli zostanę<br>zdemaskowany/a jako<br>gorszy/a lub<br>niekompetentny/a, to tego<br>nie zniosę</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q1" value="4" aria-label="Pytanie 1, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q1" value="3" aria-label="Pytanie 1, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q1" value="2" aria-label="Pytanie 1, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q1" value="1" aria-label="Pytanie 1, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q1" value="0" aria-label="Pytanie 1, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row2">
+        <td class="num">2</td>
+        <td class="statement">Muszę za wszelką cenę<br>unikać przykrych sytuacji</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q2" value="4" aria-label="Pytanie 2, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q2" value="3" aria-label="Pytanie 2, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q2" value="2" aria-label="Pytanie 2, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q2" value="1" aria-label="Pytanie 2, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q2" value="0" aria-label="Pytanie 2, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row3">
+        <td class="num">3</td>
+        <td class="statement">Ludzie, którzy zachowują się<br>przyjaźnie, być może próbują<br>się mną posłużyć lub mnie<br>wykorzystać</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q3" value="4" aria-label="Pytanie 3, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q3" value="3" aria-label="Pytanie 3, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q3" value="2" aria-label="Pytanie 3, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q3" value="1" aria-label="Pytanie 3, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q3" value="0" aria-label="Pytanie 3, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row4">
+        <td class="num">4</td>
+        <td class="statement">Muszę opierać się dominacji<br>tych, którzy mają władzę,<br>zachowując ich aprobatę i<br>akceptację</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q4" value="4" aria-label="Pytanie 4, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q4" value="3" aria-label="Pytanie 4, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q4" value="2" aria-label="Pytanie 4, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q4" value="1" aria-label="Pytanie 4, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q4" value="0" aria-label="Pytanie 4, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row5">
+        <td class="num">5</td>
+        <td class="statement">Nie potrafię znieść<br>nieprzyjemnych uczuć</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q5" value="4" aria-label="Pytanie 5, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q5" value="3" aria-label="Pytanie 5, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q5" value="2" aria-label="Pytanie 5, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q5" value="1" aria-label="Pytanie 5, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q5" value="0" aria-label="Pytanie 5, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row6">
+        <td class="num">6</td>
+        <td class="statement">Wady, usterki i błędy są nie<br>do zniesienia</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q6" value="4" aria-label="Pytanie 6, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q6" value="3" aria-label="Pytanie 6, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q6" value="2" aria-label="Pytanie 6, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q6" value="1" aria-label="Pytanie 6, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q6" value="0" aria-label="Pytanie 6, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row7">
+        <td class="num">7</td>
+        <td class="statement">Inni są często zbyt<br>roszczeniowi</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q7" value="4" aria-label="Pytanie 7, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q7" value="3" aria-label="Pytanie 7, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q7" value="2" aria-label="Pytanie 7, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q7" value="1" aria-label="Pytanie 7, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q7" value="0" aria-label="Pytanie 7, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row8">
+        <td class="num">8</td>
+        <td class="statement">Powinnam/powinienem być<br>w centrum uwagi</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q8" value="4" aria-label="Pytanie 8, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q8" value="3" aria-label="Pytanie 8, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q8" value="2" aria-label="Pytanie 8, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q8" value="1" aria-label="Pytanie 8, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q8" value="0" aria-label="Pytanie 8, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row9">
+        <td class="num">9</td>
+        <td class="statement">Bez porządku i zasad<br>wszystko się rozpadnie</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q9" value="4" aria-label="Pytanie 9, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q9" value="3" aria-label="Pytanie 9, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q9" value="2" aria-label="Pytanie 9, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q9" value="1" aria-label="Pytanie 9, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q9" value="0" aria-label="Pytanie 9, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row10">
+        <td class="num">10</td>
+        <td class="statement">Sytuacja, w której nie oddaje<br>mi się należnego szacunku i<br>nie uznaje moich zasług, jest<br>nie do zniesienia</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q10" value="4" aria-label="Pytanie 10, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q10" value="3" aria-label="Pytanie 10, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q10" value="2" aria-label="Pytanie 10, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q10" value="1" aria-label="Pytanie 10, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q10" value="0" aria-label="Pytanie 10, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row11">
+        <td class="num">11</td>
+        <td class="statement">Każde zadanie trzeba<br>wykonać perfekcyjnie</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q11" value="4" aria-label="Pytanie 11, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q11" value="3" aria-label="Pytanie 11, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q11" value="2" aria-label="Pytanie 11, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q11" value="1" aria-label="Pytanie 11, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q11" value="0" aria-label="Pytanie 11, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row12">
+        <td class="num">12</td>
+        <td class="statement">Wolę działać sam/a niż z<br>innymi ludźmi</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q12" value="4" aria-label="Pytanie 12, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q12" value="3" aria-label="Pytanie 12, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q12" value="2" aria-label="Pytanie 12, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q12" value="1" aria-label="Pytanie 12, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q12" value="0" aria-label="Pytanie 12, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row13">
+        <td class="num">13</td>
+        <td class="statement">Jeśli nie będę uważać, to inni<br>spróbują mnie wykorzystać i<br>zmanipulować</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q13" value="4" aria-label="Pytanie 13, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q13" value="3" aria-label="Pytanie 13, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q13" value="2" aria-label="Pytanie 13, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q13" value="1" aria-label="Pytanie 13, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q13" value="0" aria-label="Pytanie 13, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row14">
+        <td class="num">14</td>
+        <td class="statement">Inni ludzie mają ukryte<br>motywy</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q14" value="4" aria-label="Pytanie 14, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q14" value="3" aria-label="Pytanie 14, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q14" value="2" aria-label="Pytanie 14, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q14" value="1" aria-label="Pytanie 14, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q14" value="0" aria-label="Pytanie 14, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row15">
+        <td class="num">15</td>
+        <td class="statement">Nie ma nic gorszego, niż być<br>porzuconym</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q15" value="4" aria-label="Pytanie 15, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q15" value="3" aria-label="Pytanie 15, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q15" value="2" aria-label="Pytanie 15, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q15" value="1" aria-label="Pytanie 15, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q15" value="0" aria-label="Pytanie 15, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row16">
+        <td class="num">16</td>
+        <td class="statement">Inni powinni uznać moją<br>wyjątkowość</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q16" value="4" aria-label="Pytanie 16, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q16" value="3" aria-label="Pytanie 16, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q16" value="2" aria-label="Pytanie 16, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q16" value="1" aria-label="Pytanie 16, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q16" value="0" aria-label="Pytanie 16, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row17">
+        <td class="num">17</td>
+        <td class="statement">Inni celowo próbują mnie<br>poniżyć</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q17" value="4" aria-label="Pytanie 17, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q17" value="3" aria-label="Pytanie 17, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q17" value="2" aria-label="Pytanie 17, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q17" value="1" aria-label="Pytanie 17, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q17" value="0" aria-label="Pytanie 17, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row18">
+        <td class="num">18</td>
+        <td class="statement">W podejmowaniu decyzji czy<br>działaniu potrzebuję pomocy<br>innych</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q18" value="4" aria-label="Pytanie 18, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q18" value="3" aria-label="Pytanie 18, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q18" value="2" aria-label="Pytanie 18, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q18" value="1" aria-label="Pytanie 18, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q18" value="0" aria-label="Pytanie 18, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row19">
+        <td class="num">19</td>
+        <td class="statement">Szczegóły są niezmiernie<br>ważne</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q19" value="4" aria-label="Pytanie 19, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q19" value="3" aria-label="Pytanie 19, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q19" value="2" aria-label="Pytanie 19, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q19" value="1" aria-label="Pytanie 19, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q19" value="0" aria-label="Pytanie 19, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row20">
+        <td class="num">20</td>
+        <td class="statement">Jeśli uznam, że ktoś jest zbyt<br>apodyktyczny, mam prawo<br>zignorować jego żądania</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q20" value="4" aria-label="Pytanie 20, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q20" value="3" aria-label="Pytanie 20, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q20" value="2" aria-label="Pytanie 20, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q20" value="1" aria-label="Pytanie 20, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q20" value="0" aria-label="Pytanie 20, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row21">
+        <td class="num">21</td>
+        <td class="statement">Ludzie mający autorytet lub<br>władzę zwykle naruszają<br>granice, są zbyt wymagający,<br>wtrącają się i chcą wszystko<br>kontrolować</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q21" value="4" aria-label="Pytanie 21, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q21" value="3" aria-label="Pytanie 21, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q21" value="2" aria-label="Pytanie 21, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q21" value="1" aria-label="Pytanie 21, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q21" value="0" aria-label="Pytanie 21, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row22">
+        <td class="num">22</td>
+        <td class="statement">Jeśli chcę dostać to, na czym<br>mi zależy, to muszę ludzi<br>olśnić lub rozbawić</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q22" value="4" aria-label="Pytanie 22, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q22" value="3" aria-label="Pytanie 22, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q22" value="2" aria-label="Pytanie 22, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q22" value="1" aria-label="Pytanie 22, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q22" value="0" aria-label="Pytanie 22, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row23">
+        <td class="num">23</td>
+        <td class="statement">Powinnam/powinienem<br>robić wszystko, co uchodzi mi<br>na sucho</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q23" value="4" aria-label="Pytanie 23, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q23" value="3" aria-label="Pytanie 23, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q23" value="2" aria-label="Pytanie 23, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q23" value="1" aria-label="Pytanie 23, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q23" value="0" aria-label="Pytanie 23, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row24">
+        <td class="num">24</td>
+        <td class="statement">Jeśli inni poznają szczegóły<br>mojego życia, to<br>wykorzystają je przeciwko<br>mnie</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q24" value="4" aria-label="Pytanie 24, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q24" value="3" aria-label="Pytanie 24, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q24" value="2" aria-label="Pytanie 24, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q24" value="1" aria-label="Pytanie 24, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q24" value="0" aria-label="Pytanie 24, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row25">
+        <td class="num">25</td>
+        <td class="statement">Związki są tylko źródłem<br>problemów i ograniczają<br>wolność</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q25" value="4" aria-label="Pytanie 25, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q25" value="3" aria-label="Pytanie 25, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q25" value="2" aria-label="Pytanie 25, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q25" value="1" aria-label="Pytanie 25, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q25" value="0" aria-label="Pytanie 25, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row26">
+        <td class="num">26</td>
+        <td class="statement">Tylko ludzie tak niezwykli jak<br>ja mnie rozumieją</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q26" value="4" aria-label="Pytanie 26, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q26" value="3" aria-label="Pytanie 26, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q26" value="2" aria-label="Pytanie 26, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q26" value="1" aria-label="Pytanie 26, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q26" value="0" aria-label="Pytanie 26, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row27">
+        <td class="num">27</td>
+        <td class="statement">Ponieważ jestem znacznie<br>lepszy/a od innych, nalezą mi<br>się wyjątkowe przywileje i<br>traktowanie</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q27" value="4" aria-label="Pytanie 27, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q27" value="3" aria-label="Pytanie 27, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q27" value="2" aria-label="Pytanie 27, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q27" value="1" aria-label="Pytanie 27, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q27" value="0" aria-label="Pytanie 27, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row28">
+        <td class="num">28</td>
+        <td class="statement">Cenię wolność i brak<br>uzależnienia od innych</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q28" value="4" aria-label="Pytanie 28, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q28" value="3" aria-label="Pytanie 28, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q28" value="2" aria-label="Pytanie 28, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q28" value="1" aria-label="Pytanie 28, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q28" value="0" aria-label="Pytanie 28, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row29">
+        <td class="num">29</td>
+        <td class="statement">Zwykle jest lepiej, jeśli<br>zostaję sam/a</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q29" value="4" aria-label="Pytanie 29, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q29" value="3" aria-label="Pytanie 29, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q29" value="2" aria-label="Pytanie 29, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q29" value="1" aria-label="Pytanie 29, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q29" value="0" aria-label="Pytanie 29, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row30">
+        <td class="num">30</td>
+        <td class="statement">Trzeba zawsze trzymać się<br>najwyższych standardów, w<br>przeciwnym razie zapanuje<br>chaos</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q30" value="4" aria-label="Pytanie 30, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q30" value="3" aria-label="Pytanie 30, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q30" value="2" aria-label="Pytanie 30, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q30" value="1" aria-label="Pytanie 30, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q30" value="0" aria-label="Pytanie 30, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row31">
+        <td class="num">31</td>
+        <td class="statement">Nieprzyjemne uczucia nasilą<br>się i wymkną spod kontroli</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q31" value="4" aria-label="Pytanie 31, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q31" value="3" aria-label="Pytanie 31, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q31" value="2" aria-label="Pytanie 31, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q31" value="1" aria-label="Pytanie 31, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q31" value="0" aria-label="Pytanie 31, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row32">
+        <td class="num">32</td>
+        <td class="statement">Żyjemy w dżungli, w której<br>przetrwają tylko silni</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q32" value="4" aria-label="Pytanie 32, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q32" value="3" aria-label="Pytanie 32, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q32" value="2" aria-label="Pytanie 32, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q32" value="1" aria-label="Pytanie 32, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q32" value="0" aria-label="Pytanie 32, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row33">
+        <td class="num">33</td>
+        <td class="statement">Muszę unikać sytuacji, w<br>których zwracam na siebie<br>uwagę i robić wszystko, żeby<br>nie rzucać się w oczy</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q33" value="4" aria-label="Pytanie 33, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q33" value="3" aria-label="Pytanie 33, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q33" value="2" aria-label="Pytanie 33, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q33" value="1" aria-label="Pytanie 33, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q33" value="0" aria-label="Pytanie 33, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row34">
+        <td class="num">34</td>
+        <td class="statement">Jeśli nie będę angażować<br>uwagi innych, to mnie nie<br>polubią</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q34" value="4" aria-label="Pytanie 34, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q34" value="3" aria-label="Pytanie 34, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q34" value="2" aria-label="Pytanie 34, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q34" value="1" aria-label="Pytanie 34, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q34" value="0" aria-label="Pytanie 34, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row35">
+        <td class="num">35</td>
+        <td class="statement">Jeśli mi na czymś zależy, to<br>muszę zrobić wszystko, aby<br>to dostać</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q35" value="4" aria-label="Pytanie 35, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q35" value="3" aria-label="Pytanie 35, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q35" value="2" aria-label="Pytanie 35, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q35" value="1" aria-label="Pytanie 35, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q35" value="0" aria-label="Pytanie 35, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row36">
+        <td class="num">36</td>
+        <td class="statement">Samotność jest lepsza od<br>poczucia, że dusimy się w<br>relacji czy związku</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q36" value="4" aria-label="Pytanie 36, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q36" value="3" aria-label="Pytanie 36, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q36" value="2" aria-label="Pytanie 36, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q36" value="1" aria-label="Pytanie 36, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q36" value="0" aria-label="Pytanie 36, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row37">
+        <td class="num">37</td>
+        <td class="statement">Jestem nikim, jeśli nie bawię<br>otoczenia ani nikomu nie<br>imponuję</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q37" value="4" aria-label="Pytanie 37, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q37" value="3" aria-label="Pytanie 37, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q37" value="2" aria-label="Pytanie 37, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q37" value="1" aria-label="Pytanie 37, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q37" value="0" aria-label="Pytanie 37, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row38">
+        <td class="num">38</td>
+        <td class="statement">Inni mnie zaatakują, jeśli ja<br>najpierw nie zaatakuję ich</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q38" value="4" aria-label="Pytanie 38, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q38" value="3" aria-label="Pytanie 38, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q38" value="2" aria-label="Pytanie 38, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q38" value="1" aria-label="Pytanie 38, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q38" value="0" aria-label="Pytanie 38, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row39">
+        <td class="num">39</td>
+        <td class="statement">Jakiekolwiek sygnały napięcia<br>w związku oznaczają, że się<br>popsuł, dlatego<br>powinnam/powinienem go<br>zerwać</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q39" value="4" aria-label="Pytanie 39, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q39" value="3" aria-label="Pytanie 39, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q39" value="2" aria-label="Pytanie 39, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q39" value="1" aria-label="Pytanie 39, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q39" value="0" aria-label="Pytanie 39, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row40">
+        <td class="num">40</td>
+        <td class="statement">Jeśli nie będę działać<br>najlepiej, jak się da, to<br>poniosę porażkę</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q40" value="4" aria-label="Pytanie 40, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q40" value="3" aria-label="Pytanie 40, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q40" value="2" aria-label="Pytanie 40, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q40" value="1" aria-label="Pytanie 40, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q40" value="0" aria-label="Pytanie 40, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row41">
+        <td class="num">41</td>
+        <td class="statement">Dotrzymywanie terminów,<br>spełnianie żądań i<br>podporządkowywanie innym<br>to ciosy wymierzone wprost<br>w moje poczucie godności i<br>samowystarczalności</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q41" value="4" aria-label="Pytanie 41, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q41" value="3" aria-label="Pytanie 41, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q41" value="2" aria-label="Pytanie 41, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q41" value="1" aria-label="Pytanie 41, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q41" value="0" aria-label="Pytanie 41, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row42">
+        <td class="num">42</td>
+        <td class="statement">Potraktowano mnie<br>niesprawiedliwie,<br>powinienem/powinnam więc<br>dostać to, co mi się należy – i<br>zrobię wszystko, żeby tak się<br>stało</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q42" value="4" aria-label="Pytanie 42, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q42" value="3" aria-label="Pytanie 42, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q42" value="2" aria-label="Pytanie 42, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q42" value="1" aria-label="Pytanie 42, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q42" value="0" aria-label="Pytanie 42, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row43">
+        <td class="num">43</td>
+        <td class="statement">Jeśli ludzie się do mnie<br>zbliżają, to odkryją<br>prawdziwego/ą mnie i<br>zostanę odrzucony</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q43" value="4" aria-label="Pytanie 43, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q43" value="3" aria-label="Pytanie 43, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q43" value="2" aria-label="Pytanie 43, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q43" value="1" aria-label="Pytanie 43, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q43" value="0" aria-label="Pytanie 43, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row44">
+        <td class="num">44</td>
+        <td class="statement">Jestem bezradny/a i słaby/a</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q44" value="4" aria-label="Pytanie 44, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q44" value="3" aria-label="Pytanie 44, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q44" value="2" aria-label="Pytanie 44, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q44" value="1" aria-label="Pytanie 44, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q44" value="0" aria-label="Pytanie 44, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row45">
+        <td class="num">45</td>
+        <td class="statement">Jestem bezradny/a, gdy<br>pozostawi się mnie<br>samemu/ej sobie</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q45" value="4" aria-label="Pytanie 45, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q45" value="3" aria-label="Pytanie 45, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q45" value="2" aria-label="Pytanie 45, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q45" value="1" aria-label="Pytanie 45, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q45" value="0" aria-label="Pytanie 45, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row46">
+        <td class="num">46</td>
+        <td class="statement">Inni powinni zaspokajać moje<br>potrzeby</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q46" value="4" aria-label="Pytanie 46, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q46" value="3" aria-label="Pytanie 46, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q46" value="2" aria-label="Pytanie 46, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q46" value="1" aria-label="Pytanie 46, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q46" value="0" aria-label="Pytanie 46, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row47">
+        <td class="num">47</td>
+        <td class="statement">Jeśli będę przestrzegać zasad,<br>których oczekują ode mnie<br>inni, stracę swobodę<br>działania</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q47" value="4" aria-label="Pytanie 47, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q47" value="3" aria-label="Pytanie 47, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q47" value="2" aria-label="Pytanie 47, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q47" value="1" aria-label="Pytanie 47, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q47" value="0" aria-label="Pytanie 47, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row48">
+        <td class="num">48</td>
+        <td class="statement">Ludzie mnie wykorzystają,<br>jeśli dam im okazję</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q48" value="4" aria-label="Pytanie 48, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q48" value="3" aria-label="Pytanie 48, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q48" value="2" aria-label="Pytanie 48, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q48" value="1" aria-label="Pytanie 48, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q48" value="0" aria-label="Pytanie 48, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row49">
+        <td class="num">49</td>
+        <td class="statement">Muszę przez cały czas<br>zachowywać czujność</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q49" value="4" aria-label="Pytanie 49, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q49" value="3" aria-label="Pytanie 49, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q49" value="2" aria-label="Pytanie 49, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q49" value="1" aria-label="Pytanie 49, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q49" value="0" aria-label="Pytanie 49, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row50">
+        <td class="num">50</td>
+        <td class="statement">Prywatność jest dla mnie<br>ważniejsza niż bliskie relacje<br>z ludźmi</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q50" value="4" aria-label="Pytanie 50, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q50" value="3" aria-label="Pytanie 50, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q50" value="2" aria-label="Pytanie 50, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q50" value="1" aria-label="Pytanie 50, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q50" value="0" aria-label="Pytanie 50, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row51">
+        <td class="num">51</td>
+        <td class="statement">Zasady są arbitralne i<br>ograniczają moją wolność</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q51" value="4" aria-label="Pytanie 51, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q51" value="3" aria-label="Pytanie 51, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q51" value="2" aria-label="Pytanie 51, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q51" value="1" aria-label="Pytanie 51, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q51" value="0" aria-label="Pytanie 51, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row52">
+        <td class="num">52</td>
+        <td class="statement">Czuję się strasznie, gdy inni<br>mnie ignorują</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q52" value="4" aria-label="Pytanie 52, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q52" value="3" aria-label="Pytanie 52, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q52" value="2" aria-label="Pytanie 52, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q52" value="1" aria-label="Pytanie 52, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q52" value="0" aria-label="Pytanie 52, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row53">
+        <td class="num">53</td>
+        <td class="statement">Nie przywiązuję wagi do<br>tego, co myślą inni</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q53" value="4" aria-label="Pytanie 53, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q53" value="3" aria-label="Pytanie 53, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q53" value="2" aria-label="Pytanie 53, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q53" value="1" aria-label="Pytanie 53, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q53" value="0" aria-label="Pytanie 53, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row54">
+        <td class="num">54</td>
+        <td class="statement">Jestem szczęśliwy/a tylko<br>wówczas, gdy inni mnie<br>zauważają</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q54" value="4" aria-label="Pytanie 54, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q54" value="3" aria-label="Pytanie 54, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q54" value="2" aria-label="Pytanie 54, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q54" value="1" aria-label="Pytanie 54, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q54" value="0" aria-label="Pytanie 54, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row55">
+        <td class="num">55</td>
+        <td class="statement">Jeśli uda mi się rozbawić<br>innych, to nie zauważą mojej<br>słabości</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q55" value="4" aria-label="Pytanie 55, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q55" value="3" aria-label="Pytanie 55, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q55" value="2" aria-label="Pytanie 55, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q55" value="1" aria-label="Pytanie 55, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q55" value="0" aria-label="Pytanie 55, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row56">
+        <td class="num">56</td>
+        <td class="statement">Ktoś musi zawsze przy mnie<br>być, żeby mi we wszystkim<br>pomagać i uchronić przed<br>ewentualnym nieszczęściem</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q56" value="4" aria-label="Pytanie 56, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q56" value="3" aria-label="Pytanie 56, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q56" value="2" aria-label="Pytanie 56, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q56" value="1" aria-label="Pytanie 56, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q56" value="0" aria-label="Pytanie 56, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row57">
+        <td class="num">57</td>
+        <td class="statement">Każdy błąd lub usterka w<br>działaniu może doprowadzić<br>do katastrofy</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q57" value="4" aria-label="Pytanie 57, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q57" value="3" aria-label="Pytanie 57, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q57" value="2" aria-label="Pytanie 57, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q57" value="1" aria-label="Pytanie 57, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q57" value="0" aria-label="Pytanie 57, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row58">
+        <td class="num">58</td>
+        <td class="statement">Jestem bardzo<br>utalentowany/a, dlatego inni<br>powinni robić wszystko, aby<br>mi pomóc w karierze</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q58" value="4" aria-label="Pytanie 58, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q58" value="3" aria-label="Pytanie 58, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q58" value="2" aria-label="Pytanie 58, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q58" value="1" aria-label="Pytanie 58, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q58" value="0" aria-label="Pytanie 58, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row59">
+        <td class="num">59</td>
+        <td class="statement">Jeśli nie będę wywierać presji<br>na innych, to sam/a będę<br>popychadłem</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q59" value="4" aria-label="Pytanie 59, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q59" value="3" aria-label="Pytanie 59, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q59" value="2" aria-label="Pytanie 59, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q59" value="1" aria-label="Pytanie 59, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q59" value="0" aria-label="Pytanie 59, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row60">
+        <td class="num">60</td>
+        <td class="statement">Nie muszę stosować się do<br>zasad, które obowiązują<br>innych ludzi</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q60" value="4" aria-label="Pytanie 60, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q60" value="3" aria-label="Pytanie 60, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q60" value="2" aria-label="Pytanie 60, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q60" value="1" aria-label="Pytanie 60, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q60" value="0" aria-label="Pytanie 60, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row61">
+        <td class="num">61</td>
+        <td class="statement">Siła i spryt to najlepsze<br>strategie w działaniu</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q61" value="4" aria-label="Pytanie 61, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q61" value="3" aria-label="Pytanie 61, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q61" value="2" aria-label="Pytanie 61, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q61" value="1" aria-label="Pytanie 61, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q61" value="0" aria-label="Pytanie 61, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row62">
+        <td class="num">62</td>
+        <td class="statement">Muszę mieć stały dostęp do<br>opiekuna lub pomocnika</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q62" value="4" aria-label="Pytanie 62, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q62" value="3" aria-label="Pytanie 62, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q62" value="2" aria-label="Pytanie 62, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q62" value="1" aria-label="Pytanie 62, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q62" value="0" aria-label="Pytanie 62, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row63">
+        <td class="num">63</td>
+        <td class="statement">Zasadniczo jestem sam/a –<br>chyba że mogę się związać z<br>osoba silniejszą ode mnie</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q63" value="4" aria-label="Pytanie 63, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q63" value="3" aria-label="Pytanie 63, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q63" value="2" aria-label="Pytanie 63, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q63" value="1" aria-label="Pytanie 63, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q63" value="0" aria-label="Pytanie 63, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row64">
+        <td class="num">64</td>
+        <td class="statement">Nie mogę ufać innym</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q64" value="4" aria-label="Pytanie 64, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q64" value="3" aria-label="Pytanie 64, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q64" value="2" aria-label="Pytanie 64, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q64" value="1" aria-label="Pytanie 64, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q64" value="0" aria-label="Pytanie 64, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+
+      <tr id="row65">
+        <td class="num">65</td>
+        <td class="statement">Nie radzę sobie w życiu tak<br>dobrze jak inni</td>
+        
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q65" value="4" aria-label="Pytanie 65, odpowiedź 4">
+            <span class="opt-num">4</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q65" value="3" aria-label="Pytanie 65, odpowiedź 3">
+            <span class="opt-num">3</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q65" value="2" aria-label="Pytanie 65, odpowiedź 2">
+            <span class="opt-num">2</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q65" value="1" aria-label="Pytanie 65, odpowiedź 1">
+            <span class="opt-num">1</span>
+          </label>
+        </td>
+        <td class="option">
+          <label class="option-label">
+            <input type="radio" name="q65" value="0" aria-label="Pytanie 65, odpowiedź 0">
+            <span class="opt-num">0</span>
+          </label>
+        </td>
+      </tr>
+    
+      </table>
+
+      <div class="buttons">
+        <button type="button" onclick="calculateResults()">Oblicz wynik</button>
+        <button type="reset" onclick="resetUI()">Wyczyść</button>
+      </div>
+    </form>
+
+    <div id="results">
+      <h2>Wyniki</h2>
+      <div id="resultsTable"></div>
+      <div id="comment"></div>
+      <div class="small-note">
+        (Z = (wynik surowy – średnia z populacji) / odchylenie standardowe populacji)
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const PROFILES = {"unikająca": {"items": [1, 2, 5, 31, 33, 39, 43], "mean": 10.86, "sd": 6.46}, "zależna": {"items": [15, 18, 44, 45, 56, 62, 63], "mean": 9.26, "sd": 6.12}, "bierno-agresywna": {"items": [4, 7, 20, 21, 41, 47, 51], "mean": 8.09, "sd": 5.97}, "obsesyjno-kompulsyjna": {"items": [6, 9, 11, 19, 30, 40, 57], "mean": 10.56, "sd": 7.2}, "antyspołeczna": {"items": [23, 32, 35, 38, 42, 59, 61], "mean": 4.25, "sd": 4.3}, "narcystyczna": {"items": [10, 16, 26, 27, 46, 58, 60], "mean": 3.42, "sd": 4.23}, "histrioniczna": {"items": [8, 22, 34, 37, 52, 54, 55], "mean": 6.47, "sd": 6.09}, "schizoidalna": {"items": [12, 25, 28, 29, 36, 50, 53], "mean": 8.99, "sd": 5.6}, "paranoiczna": {"items": [3, 13, 14, 17, 24, 48, 49], "mean": 6.99, "sd": 6.22}, "borderline": {"items": [31, 44, 45, 49, 56, 64, 65], "mean": 8.07, "sd": 6.05}};
+
+    function fmtPL(x) {
+      // format number with 2 decimals and comma separator
+      const s = (Math.round(x * 100) / 100).toFixed(2);
+      return s.replace('.', ',');
+    }
+
+    function getAnswer(qNum) {
+      const el = document.querySelector(`input[name="q${qNum}"]:checked`);
+      return el ? parseInt(el.value, 10) : null;
+    }
+
+    function clearMissingHighlights() {
+      for (let i = 1; i <= 65; i++) {
+        const row = document.getElementById(`row${i}`);
+        if (row) row.classList.remove('missing');
+      }
+    }
+
+    function highlightMissing(missingList) {
+      missingList.forEach(i => {
+        const row = document.getElementById(`row${i}`);
+        if (row) row.classList.add('missing');
+      });
+    }
+
+    function calculateResults() {
+      clearMissingHighlights();
+
+      const missing = [];
+      const answers = {};
+
+      for (let i = 1; i <= 65; i++) {
+        const v = getAnswer(i);
+        if (v === null) {
+          missing.push(i);
+        } else {
+          answers[i] = v;
+        }
+      }
+
+      if (missing.length > 0) {
+        highlightMissing(missing);
+        alert("Uzupełnij wszystkie pozycje (brak odpowiedzi dla: " + missing.join(", ") + ").");
+        return;
+      }
+
+      // Compute results
+      const results = {};
+      Object.entries(PROFILES).forEach(([name, meta]) => {
+        const raw = meta.items.reduce((sum, itemNo) => sum + (answers[itemNo] ?? 0), 0);
+        const z = (raw - meta.mean) / meta.sd;
+        results[name] = { raw, z };
+      });
+
+      // Build results table
+      const order = [
+        "unikająca",
+        "zależna",
+        "bierno-agresywna",
+        "obsesyjno-kompulsyjna",
+        "antyspołeczna",
+        "narcystyczna",
+        "histrioniczna",
+        "schizoidalna",
+        "paranoiczna",
+        "borderline"
+      ];
+
+      let html = '<table><tr><th>Profil</th><th>Wynik surowy</th><th>Z</th></tr>';
+      order.forEach(name => {
+        html += `<tr>
+          <td>${name}</td>
+          <td>${results[name].raw}</td>
+          <td>${fmtPL(results[name].z)}</td>
+        </tr>`;
+      });
+      html += '</table>';
+
+      document.getElementById("resultsTable").innerHTML = html;
+
+      // Top 3
+      const top3 = Object.entries(results)
+        .sort((a, b) => b[1].z - a[1].z)
+        .slice(0, 3)
+        .map(([name]) => name);
+
+      // Comment (exact format requested)
+      const comment =
+        "PBQ-SF - standaryzacja Z dla poszczególnych z. o.: " +
+        "unikająca: " + fmtPL(results["unikająca"].z) + "; " +
+        "zależna: " + fmtPL(results["zależna"].z) + "; " +
+        "bierno-agresywna: " + fmtPL(results["bierno-agresywna"].z) + "; " +
+        "obsesyjno-kompulsyjna: " + fmtPL(results["obsesyjno-kompulsyjna"].z) + "; " +
+        "antyspołeczna: " + fmtPL(results["antyspołeczna"].z) + "; " +
+        "narcystyczna: " + fmtPL(results["narcystyczna"].z) + "; " +
+        "histrioniczna: " + fmtPL(results["histrioniczna"].z) + "; " +
+        "schizoidalna: " + fmtPL(results["schizoidalna"].z) + "; " +
+        "paranoiczna: " + fmtPL(results["paranoiczna"].z) + "; " +
+        "borderline: " + fmtPL(results["borderline"].z) + ". " +
+        "Kwestionariusz sugeruje dominację przekonań char. dla z. o. typu " +
+        top3[0] + ", " + top3[1] + " i " + top3[2] + ".";
+
+      document.getElementById("comment").textContent = comment;
+
+      const res = document.getElementById("results");
+      res.style.display = "block";
+      res.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function resetUI() {
+      clearMissingHighlights();
+      document.getElementById("results").style.display = "none";
+      document.getElementById("resultsTable").innerHTML = "";
+      document.getElementById("comment").textContent = "";
+    }
+  </script>
+</body>
+</html>
